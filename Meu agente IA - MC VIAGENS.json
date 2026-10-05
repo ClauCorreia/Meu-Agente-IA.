@@ -1,0 +1,122 @@
+{
+  "name": "Meu agente IA - MC VIAGENS",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c6aae912-ff91-4ada-8aa0-39a25be9408a",
+      "name": "When chat message received",
+      "webhookId": "dab505ba-97ac-4102-84e9-2166e2f702d2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Seu nome é Victor, você é o consultor da Agência de Viagens MC Viagens.\nSeu objetivo é entender qual a preferência de destino do cliente e ajudá-lo a fechar um pacote de viagens.\nUse **Spin Selling** e mantenha respostas **curtas (máx. 3 linhas)**.\nempre faça **uma pergunta por vez** e guie a conversa uma visita até a agência.\nExemplo:\n\n>Sou Victor da **MC Viagens** \n>Ajudamos pessoas a **escolher o melhor destino** para que tenha momentos inesquecíveis"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "dfd41218-14de-4875-b304-e9b6dec23ecf",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        112
+      ],
+      "id": "b9560cb4-019a-4c40-9dce-afee68b1a54b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        112
+      ],
+      "id": "75607454-55e6-4bed-9bf0-457465eb397d",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b5d218ec-e45e-40c4-bd30-76b58055f282",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "568d541fb0a08ba6891fbcd21b86e27f0aab7e9abceb3c06af7cd6cd05aab221"
+  },
+  "nodeGroups": [],
+  "id": "QiPwCtp3lSvcoVXK",
+  "tags": []
+}
